@@ -33,10 +33,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "centos64_minimal_x86_64"
   config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
 
-  config.vm.hostname = WP_HOSTNAME
-  config.vm.network :private_network, ip: WP_IP
+  config.vm.hostname = wp_opts[:hostname]
+  config.vm.network :private_network, ip: GUEST_IP
 
-  config.vm.synced_folder 'theme/', "/var/www/wordpress/wp-content/themes/#{WP_USE_SYNCED_THEME}" if WP_USE_SYNCED_THEME
+  config.vm.synced_folder 'theme/', "/var/www/wordpress/wp-content/themes/#{ wp_opts[:theme_name] }", owner: 'vagrant', group: 'vagrant'
 
   # for CentOS ipv6 issue
   config.vm.provider :virtualbox do |vb|
@@ -66,9 +66,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       },
       :"wp-install" => {
         :wp_version      => 'latest',
-        :url             => "http://" << wp_opts[:hostname],
-        :wpdir           => '/var/www/wordpress',
-        :locale          => wp_opts[:locale] || '',
+        :url             => "http://#{wp_opts[:hostname]}/",
+        :wpdir           => '/var/www/wordpress/',
+        :locale          => wp_opts[:locale] || 'en_US',
         :admin_user      => wp_opts[:admin_user] || 'wordpress',
         :admin_password  => wp_opts[:admin_password] || 'wordpress',
         :dbprefix        => 'wp_',
