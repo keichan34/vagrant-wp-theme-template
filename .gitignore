@@ -2,3 +2,4 @@
 /node_modules
 /theme/js/src/*.js
 /theme/js/*.min.js
+/theme/*.css

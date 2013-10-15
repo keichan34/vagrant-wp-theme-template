@@ -25,9 +25,31 @@ module.exports = function(grunt) {
         ]
       }
     },
+    sass: {
+      dev: {
+        options: {
+          includePaths: ['theme/sass/includes']
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'theme/sass',
+            src: ['*.scss'],
+            dest: 'theme',
+            ext: '.css'
+          }
+        ]
+      }
+    },
     watch: {
-      files: ['theme/js/src/*.js.coffee'],
-      tasks: ['coffee', 'uglify']
+      scripts: {
+        files: ['theme/js/src/*.js.coffee'],
+        tasks: ['coffee', 'uglify']
+      },
+      styles: {
+        files: ['theme/sass/**/*.scss'],
+        tasks: ['sass']
+      }
     }
   });
 
