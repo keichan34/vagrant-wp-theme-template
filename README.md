@@ -10,39 +10,51 @@ A SCSS and CoffeeScript version of [_s](http://underscores.me/) is included for 
 * Automatic installation & activation of plugins
     * default plugins: theme-check, plugin-check, mp6
 * Optional import of theme unit test data
-* Pre-installed [wp-cli](http://wp-cli.org)
 * Uses [Grunt](http://gruntjs.com/) to manage your theme.
 
 ## Getting Started
 
 1. Install [NodeJS / NPM](http://nodejs.org/download/).
-2. Install [VirtualBox](https://www.virtualbox.org/).
-3. Install [Vagrant](http://www.vagrantup.com/).
-4. Install the vagrant-hostsupdater plugin.
+2. Install [Grunt](http://gruntjs.com/getting-started).
+3. Install [VirtualBox](https://www.virtualbox.org/).
+4. Install [Vagrant](http://www.vagrantup.com/).
+5. Install the vagrant-hostsupdater plugin.
 
     ```
     $ vagrant plugin install vagrant-hostsupdater
     ```
 
-5. Clone the repository into a local directory.
+6. Clone the repository into a local directory.
 
     ```
     $ git clone https://github.com/keichan34/vagrant-wp-theme-template.git new-project
     ```
 
-6. Change into a new directory.
+7. Change into a new directory.
 
     ```
     $ cd new-project
     ```
 
-7. Start the Vagrant environment.
+8. Initialize your NodeJS modules.
+
+    ```
+    $ npm install
+    ```
+
+9. Compile the sources (and watch for changes).
+
+    ```
+    $ grunt watch
+    ```
+
+10. Start the Vagrant environment.
 
     ```
     $ vagrant up
     ```
 
-8. Visit [http://wordpress.dev/](http://wordpress.dev/) !
+11. Visit [http://wordpress.dev/](http://wordpress.dev/) !
 
 ## Development
 
@@ -69,37 +81,12 @@ This tool installs a WordPress environment with these settings by default.
 * Default user
 	* Username: admin
 	* Password: admin
-* Debug mode is enabled
+* Debug mode is enabled (`WP_DEBUG`)
 * Default plugins
-	* hotfix
 	* theme-check
 	* plugin-check
 	* wp-multibyte-patch (`ja` locale only)
-
-## About wp-cli
-
-* [wp-cli](http://wp-cli.org/) is pre-installed in this Vagrant environments.
-* If you install wp-cli in your Host OS, you can fire wp-cli commands from the Host OS.
-
-### Example for wp-cli commands
-
-You have to install [wp-cli](wp-cli.org) in your Host OS.
-
-    cd vagrant-local
-
-    # Exports the database using mysqldump to Desktop.
-    wp db export ~/Desktop/export.sql
-
-    # Export content to a WXR file.
-    mkdir /Users/foo/Desktop/export
-    wp export --dir=/Users/foo/Desktop/export
-
-    # Activate the contect-form-7 plugin.
-    wp plugin install contact-form-7 --activate
-
-    # Update WordPress.
-    wp core update
-
+    * mp6
 
 ## Virtual Environment
 
@@ -107,7 +94,7 @@ You have to install [wp-cli](wp-cli.org) in your Host OS.
 	* 22 - SSH
 	* 80 - HTTP
 	* 443 - HTTPS
-	* 3306 - MySQL (allows you to operate wp-cli from the Host OS)
+	* 3306 - MySQL
 * CentOS 6.4.x
 	* PHP 5.3.x
 	* MySQL 5.1.x

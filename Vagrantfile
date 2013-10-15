@@ -18,8 +18,8 @@ wp_opts = {
   # The name of the theme
   :theme_name => '_s',
 
-  :admin_user => 'wordpress',
-  :admin_password => 'wordpress'
+  :admin_user => 'admin',
+  :admin_password => 'admin'
 }
 
 # end configuration
