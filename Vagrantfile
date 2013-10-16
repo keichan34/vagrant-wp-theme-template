@@ -14,7 +14,7 @@ wp_opts = {
   # Default plugins that will be installed and activated
   :default_plugins => %w(theme-check plugin-check mp6),
   # The locale WordPress will be installed in
-  :locale => '',
+  :locale => nil,
   # The name of the theme
   :theme_name => '_s',
 
@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = wp_opts[:hostname]
   config.vm.network :private_network, ip: GUEST_IP
 
-  config.vm.synced_folder 'theme/', "/var/www/wordpress/wp-content/themes/#{ wp_opts[:theme_name] }", owner: 'vagrant', group: 'vagrant'
+  config.vm.synced_folder 'theme/', "/var/www/theme/#{ wp_opts[:theme_name] }", owner: 'vagrant', group: 'vagrant'
 
   # for CentOS ipv6 issue
   config.vm.provider :virtualbox do |vb|
@@ -69,11 +69,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         :url             => "http://#{wp_opts[:hostname]}/",
         :wpdir           => '/var/www/wordpress/',
         :locale          => wp_opts[:locale] || 'en_US',
-        :admin_user      => wp_opts[:admin_user] || 'wordpress',
-        :admin_password  => wp_opts[:admin_password] || 'wordpress',
+        :admin_user      => wp_opts[:admin_user] || 'admin',
+        :admin_password  => wp_opts[:admin_password] || 'admin',
         :dbprefix        => 'wp_',
         :default_plugins => wp_opts[:default_plugins] || [],
         :default_theme   => wp_opts[:theme_name] || '',
+        :symlinked_themes => [wp_opts[:theme_name]],
         :title           => 'Just Another WordPress Blog',
         :is_multisite    => false,
         :force_ssl_admin => false,

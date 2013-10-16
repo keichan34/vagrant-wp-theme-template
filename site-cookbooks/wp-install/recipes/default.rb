@@ -45,6 +45,13 @@ unless Chef::Config[:solo]
   end
 end
 
+bash "ensure-wordpress-directory" do
+  user "root"
+  group "root"
+
+  code "mkdir -p #{ Shellwords.shellescape node['wp-install']['wpdir'] } && chown vagrant:vagrant #{ Shellwords.shellescape node['wp-install']['wpdir'] }"
+end
+
 bash "wordpress-core-download" do
   user "vagrant"
   group "vagrant"
@@ -123,6 +130,13 @@ if node['wp-install']['locale'] == 'ja' then
   end
 end
 
+node['wp-install']['symlinked_themes'].each do |theme|
+  bash "Symlink theme #{ theme }" do
+    user "vagrant"
+    group "vagrant"
+    code "ln -s /var/www/theme/#{ Shellwords.shellescape theme } #{Shellwords.shellescape(node['wp-install']['wpdir'])}/wp-content/themes/#{ Shellwords.shellescape theme }"
+  end
+end
 
 node['wp-install']['default_plugins'].each do |plugin|
   bash "WordPress #{plugin} install" do
