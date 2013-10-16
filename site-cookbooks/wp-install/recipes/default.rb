@@ -45,11 +45,10 @@ unless Chef::Config[:solo]
   end
 end
 
-bash "ensure-wordpress-directory" do
-  user "root"
-  group "root"
-
-  code "mkdir -p #{ Shellwords.shellescape node['wp-install']['wpdir'] } && chown vagrant:vagrant #{ Shellwords.shellescape node['wp-install']['wpdir'] }"
+directory node['wp-install']['wpdir'] do
+  mode 00755
+  owner "vagrant"
+  group "vagrant"
 end
 
 bash "wordpress-core-download" do
@@ -131,10 +130,11 @@ if node['wp-install']['locale'] == 'ja' then
 end
 
 node['wp-install']['symlinked_themes'].each do |theme|
-  bash "Symlink theme #{ theme }" do
-    user "vagrant"
-    group "vagrant"
-    code "ln -s /var/www/theme/#{ Shellwords.shellescape theme } #{Shellwords.shellescape(node['wp-install']['wpdir'])}/wp-content/themes/#{ Shellwords.shellescape theme }"
+  link "Symlink theme #{ theme }" do
+    target_file "#{Shellwords.shellescape(node['wp-install']['wpdir'])}/wp-content/themes/#{ Shellwords.shellescape theme }"
+    to "/var/www/theme/#{ Shellwords.shellescape theme }"
+
+    action :create
   end
 end
 
